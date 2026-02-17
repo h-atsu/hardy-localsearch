@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC
+from copy import deepcopy
 from dataclasses import dataclass
 from typing import Self
 
@@ -9,6 +10,6 @@ from typing import Self
 class Solution(ABC):
     """Problem-specific solution state."""
 
-    @abstractmethod
     def clone(self) -> Self:
         """Return an independent copy of this solution."""
+        return deepcopy(self)

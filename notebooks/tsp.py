@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Any, Iterable, Self
+from typing import Any, Iterable
 
 import numpy as np
 import plotly.graph_objects as go
@@ -21,9 +21,6 @@ from hardy_ls import (
 @dataclass
 class TSPSolution(Solution):
     route: np.ndarray
-
-    def clone(self) -> Self:
-        return TSPSolution(route=self.route.copy())
 
 
 @dataclass(frozen=True)
@@ -73,8 +70,11 @@ class TwoOptNeighborhood(Neighborhood[TSPSolution]):
         self,
         objective: Objective[TSPSolution],
         sol: TSPSolution,
-        move: TwoOptMove,
+        move: Move[TSPSolution],
     ) -> float:
+        if not isinstance(move, TwoOptMove) or not isinstance(objective, TSPObjective):
+            return super().delta(objective, sol, move)
+
         n = len(sol.route)
         a = sol.route[(move.i - 1) % n]
         b = sol.route[move.i]
@@ -103,8 +103,11 @@ class OrOptNeighborhood(Neighborhood[TSPSolution]):
         self,
         objective: Objective[TSPSolution],
         sol: TSPSolution,
-        move: OrOptMove,
+        move: Move[TSPSolution],
     ) -> float:
+        if not isinstance(move, OrOptMove) or not isinstance(objective, TSPObjective):
+            return super().delta(objective, sol, move)
+
         n = len(sol.route)
         route = sol.route
         a = route[(move.i - 1) % n]

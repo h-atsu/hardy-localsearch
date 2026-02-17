@@ -44,9 +44,6 @@ from hardy_ls import LocalSolver, Move, Neighborhood, Objective, Solution
 class IntSolution(Solution):
     x: int
 
-    def clone(self) -> Self:
-        return type(self)(self.x)
-
 
 @dataclass(frozen=True)
 class PlusOne(Move[IntSolution]):

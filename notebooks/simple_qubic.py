@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Iterable, Self
+from typing import Iterable
 
 from hardy_ls import LocalSolver, Move, Neighborhood, Objective, Solution
 
@@ -8,9 +8,6 @@ from hardy_ls import LocalSolver, Move, Neighborhood, Objective, Solution
 @dataclass
 class IntSolution(Solution):
     x: int
-
-    def clone(self) -> Self:
-        return type(self)(self.x)
 
 
 @dataclass(frozen=True)
